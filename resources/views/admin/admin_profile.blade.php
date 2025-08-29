@@ -62,7 +62,7 @@
 
                                                 <form action="{{ route('profile.store') }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
-                                                
+
                                                     <div class="form-group mb-3 row">
                                                         <label class="form-label">Name</label>
                                                         <div class="col-lg-12 col-xl-12">
@@ -127,32 +127,47 @@
                                             </div>
 
                                             <div class="card-body mb-0">
-                                                <div class="form-group mb-3 row">
-                                                    <label class="form-label">Old Password</label>
-                                                    <div class="col-lg-12 col-xl-12">
-                                                        <input class="form-control" type="password" placeholder="Old Password">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group mb-3 row">
-                                                    <label class="form-label">New Password</label>
-                                                    <div class="col-lg-12 col-xl-12">
-                                                        <input class="form-control" type="password" placeholder="New Password">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group mb-3 row">
-                                                    <label class="form-label">Confirm Password</label>
-                                                    <div class="col-lg-12 col-xl-12">
-                                                        <input class="form-control" type="password" placeholder="Confirm Password">
-                                                    </div>
-                                                </div>
 
-                                                <div class="form-group row">
-                                                    <div class="col-lg-12 col-xl-12">
-                                                        <button type="submit" class="btn btn-primary">Change Password</button>
-                                                        <button type="button" class="btn btn-danger">Cancel</button>
-                                                    </div>
-                                                </div>
+                                                <form action="{{ route('admin.password.update') }}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
 
+                                                    <div class="form-group mb-3 row">
+                                                        <label class="form-label">Old Password</label>
+                                                        <div class="col-lg-12 col-xl-12">
+                                                            <input class="form-control @error('old_password') is-invalid @enderror" id="old_password" name="old_password" type="password" placeholder="Old Password">
+
+                                                            @error('old_password')
+                                                                <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mb-3 row">
+                                                        <label class="form-label">New Password</label>
+                                                        <div class="col-lg-12 col-xl-12">
+                                                            <input class="form-control @error('new_password') is-invalid @enderror" id="new_password" name="new_password" type="password" placeholder="New Password">
+
+                                                            @error('new_password')
+                                                                <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mb-3 row">
+                                                        <label class="form-label">Confirm Password</label>
+                                                        <div class="col-lg-12 col-xl-12">
+                                                            <input class="form-control" name="new_password_confirmation" id="new_password_confirmation" type="password" placeholder="Confirm Password">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col-lg-12 col-xl-12">
+                                                            <button type="submit" class="btn btn-primary">Change Password</button>
+                                                            <button type="button" class="btn btn-danger">Cancel</button>
+                                                        </div>
+                                                    </div>
+
+                                                </form>
                                             </div><!--end card-body-->
                                         </div>
                                     </div>
@@ -172,12 +187,12 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function (e) {
-        $('#image').change(function () {
+    $(document).ready(function(e) {
+        $('#image').change(function() {
             const file = this.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function (event) {
+                reader.onload = function(event) {
                     $('#showImage').attr('src', event.target.result);
                 }
                 reader.readAsDataURL(file);
