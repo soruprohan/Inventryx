@@ -7,7 +7,7 @@ use App\Http\Controllers\AdminController;
 Route::get('/', function () {
     return view('welcome');
 });
-
+ 
 Route::get('/dashboard', function () {
     return view('admin.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -21,3 +21,9 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
  Route::get('/admin/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
+
+
+ Route::middleware('auth')->group(function () {
+    Route::get('/admin/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
+    Route::post('/profile/store', [AdminController::class, 'ProfileStore'])->name('profile.store');
+});
