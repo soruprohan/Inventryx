@@ -12,8 +12,8 @@ class BrandController extends Controller
 {
     public function AllBrand()
     {
-       $brand = Brand::latest()->get();
-       return view('admin.backend.brand.all_brand', compact('brand'));
+        $brand = Brand::latest()->get();
+        return view('admin.backend.brand.all_brand', compact('brand'));
     }
 
     //End Method
@@ -26,14 +26,13 @@ class BrandController extends Controller
 
     public function StoreBrand(Request $request)
     {
-        if($request->file('image'))
-        {
+        if ($request->file('image')) {
             $image = $request->file('image');
             $manager = new ImageManager(new Driver());
-            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
             $img = $manager->read($image);
-            $img->resize(100,90)->save(public_path('upload/brand/'.$name_gen));
-            $save_url = 'upload/brand/'.$name_gen;
+            $img->resize(100, 90)->save(public_path('upload/brand/' . $name_gen));
+            $save_url = 'upload/brand/' . $name_gen;
 
             Brand::create([
                 'name' => $request->name,
@@ -46,7 +45,66 @@ class BrandController extends Controller
             );
 
             return redirect()->route('all.brand')->with($notification);
+        }
     }
-}
+    //End Method
 
+    public function EditBrand($id)
+    {
+        $brand = Brand::findOrFail($id);
+        return view('admin.backend.brand.edit_brand', compact('brand'));
+    }
+    //End Method
+
+    public function UpdateBrand(Request $request)
+    {
+        $brand = Brand::findOrFail($request->id);
+
+        if ($request->file('image')) {
+            $image = $request->file('image');
+            $manager = new ImageManager(new Driver());
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+            $img = $manager->read($image);
+            $img->resize(100, 90)->save(public_path('upload/brand/' . $name_gen));
+            $save_url = 'upload/brand/' . $name_gen;
+
+            if (file_exists(public_path($brand->image))) {
+                unlink(public_path($brand->image));
+            }
+
+            $brand::find($request->id)->update([
+                'name' => $request->name,
+                'image' => $save_url
+            ]);
+            
+        } else {
+            $brand::find($request->id)->update([
+                'name' => $request->name
+            ]);
+        }
+
+        $notification = array(
+            'message' => 'Brand Updated Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('all.brand')->with($notification);
+    }
+    //End Method
+
+    public function DeleteBrand($id)
+    {
+        $brand = Brand::findOrFail($id);
+        if (file_exists(public_path($brand->image))) {
+            unlink(public_path($brand->image));
+        }
+        $brand->delete();
+
+        $notification = array(
+            'message' => 'Brand Deleted Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
 }
