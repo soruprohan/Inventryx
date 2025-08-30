@@ -48,8 +48,8 @@ require __DIR__.'/auth.php';
         Route::get('/add/warehouse', 'AddWareHouse')->name('add.warehouse');
         Route::post('/store/warehouse', 'StoreWareHouse')->name('store.warehouse');
         Route::get('/edit/warehouse/{id}', 'EditWareHouse')->name('edit.warehouse');
-        Route::post('/update/brand', 'UpdateBrand')->name('update.brand');  
-        Route::get('/delete/brand/{id}', 'DeleteBrand')->name('delete.brand');  
+        Route::post('/update/warehouse', 'UpdateWareHouse')->name('update.warehouse');  
+        Route::get('/delete/warehouse/{id}', 'DeleteWareHouse')->name('delete.warehouse');  
 
     });
 });
