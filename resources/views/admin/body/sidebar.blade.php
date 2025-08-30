@@ -38,12 +38,12 @@
                             <li class="menu-title">Pages</li>
 
                             <li>
-                                <a href="#sidebarAuth" data-bs-toggle="collapse">
+                                <a href="#Brand" data-bs-toggle="collapse">
                                     <i data-feather="users"></i>
                                     <span> Brand Manage </span>
                                     <span class="menu-arrow"></span>
                                 </a>
-                                <div class="collapse" id="sidebarAuth">
+                                <div class="collapse" id="Brand">
                                     <ul class="nav-second-level">
                                         <li>
                                             <a href="{{route('all.brand')}}" class="tp-link">All Brands</a>
@@ -81,6 +81,23 @@
                                     <ul class="nav-second-level">
                                         <li>
                                             <a href="{{route('all.supplier')}}" class="tp-link">All Suppliers</a>
+                                        </li>
+                                      
+                                        
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li>
+                                <a href="#Customer" data-bs-toggle="collapse">
+                                    <i data-feather="users"></i>
+                                    <span> Customer Manage </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="Customer">
+                                    <ul class="nav-second-level">
+                                        <li>
+                                            <a href="{{route('all.customer')}}" class="tp-link">All Customers</a>
                                         </li>
                                       
                                         
