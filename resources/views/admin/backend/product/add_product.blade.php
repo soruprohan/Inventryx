@@ -35,7 +35,7 @@
                <div class="col-md-6 mb-3">
                   <div class="form-group w-100">
                      <label class="form-label" for="formBasic">Product Category : <span class="text-danger">*</span></label>
-                     <select name="category_id" id="category_id" class="form-control form-select">
+                     <select name="category_id" id="category_id" class="form-control form-select" required>
                         <option value="">Select Category</option>
                         @foreach ($categories as $item)
                         <option value="{{ $item->id }}">{{ $item->category_name }}</option>
@@ -47,7 +47,7 @@
                <div class="col-md-6 mb-3">
                   <div class="form-group w-100">
                      <label class="form-label" for="formBasic">Brand : <span class="text-danger">*</span></label>
-                     <select name="brand_id" id="brand_id" class="form-control form-select">
+                     <select name="brand_id" id="brand_id" class="form-control form-select" required>
                         <option value="">Select Brand</option>
                         @foreach ($brands as $item)
                         <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -92,7 +92,7 @@
             <div class="col-md-12 mb-3">
                <div class="form-group w-100">
                   <label class="form-label" for="formBasic">Warehouse : <span class="text-danger">*</span></label>
-                  <select name="warehouse_id" id="warehouse_id" class="form-control form-select">
+                  <select name="warehouse_id" id="warehouse_id" class="form-control form-select" required>
                      <option value="">Select Warehouse</option>
                      @foreach ($warehouses as $item)
                      <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -104,7 +104,7 @@
             <div class="col-md-12 mb-3">
                <div class="form-group w-100">
                   <label class="form-label" for="formBasic">Supplier : <span class="text-danger">*</span></label>
-                  <select name="supplier_id" id="supplier_id" class="form-control form-select">
+                  <select name="supplier_id" id="supplier_id" class="form-control form-select" required>
                      <option value="">Select Supplier</option>
                      @foreach ($suppliers as $item)
                      <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -123,8 +123,8 @@
             <div class="col-md-12">
                <div class="form-group w-100">
                   <label class="form-label" for="formBasic">Status : <span class="text-danger">*</span></label>
-                  <select name="status" id="status" class="form-control form-select">
-                     <option selected="">Select Status</option>
+                  <select name="status" id="status" class="form-control form-select" required>
+                     <option value="">Select Status</option>
                      <option value="Received">Received</option>
                      <option value="Pending">Pending</option> 
                   </select>
