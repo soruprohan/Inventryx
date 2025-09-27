@@ -207,4 +207,30 @@ class ProductController extends Controller
         return redirect()->route('all.product')->with($notification);
      
     }
+
+    public function DeleteProduct($id)
+    {
+        $product = Product::findOrFail($id);
+        $images = ProductImage::where('product_id', $id)->get();
+
+        // Delete associated images from the server and database
+        foreach ($images as $image) {
+            if (file_exists(public_path($image->image))) {
+                unlink(public_path($image->image));
+            }
+            $image->delete();
+        }
+        //Delete image from ProductImage table
+        ProductImage::where('product_id', $id)->delete();
+        //Delete product from product table
+        $product->delete();
+
+        $notification = array(
+            'message' => 'Product Deleted Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
+    //End Method
 }
