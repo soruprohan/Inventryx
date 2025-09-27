@@ -139,4 +139,72 @@ class ProductController extends Controller
         return redirect()->route('all.product')->with($notification);
      
     }
+    //End Method
+    public function EditProduct($id)
+    {
+        $editData = Product::findOrFail($id);
+        $categories = ProductCategory::all();
+        $brands = Brand::all();
+        $warehouses = WareHouse::all();
+        $suppliers = Supplier::all();
+        $multiimg = ProductImage::where('product_id', $id)->get();
+        return view('admin.backend.product.edit_product', compact('editData', 'categories', 'brands', 'warehouses', 'suppliers', 'multiimg'));
+    }
+    //End Method
+    public function UpdateProduct(Request $request)
+    {
+        $product_id = $request->id;
+        $product = Product::findOrFail($product_id);
+
+        $product->update([
+            'name' => $request->name,
+            'code' => $request->code,
+            'category_id' => $request->category_id,
+            'brand_id' => $request->brand_id,
+            'warehouse_id' => $request->warehouse_id,
+            'supplier_id' => $request->supplier_id,
+            'price' => $request->price,
+            'stock_alert' => $request->stock_alert,
+            'note' => $request->note,
+            'product_qty' => $request->product_qty,
+            'status' => $request->status,
+        ]);
+
+            if ($request->hasFile('image')) {
+            foreach ($request->file('image') as $img) {
+                 $manager = new ImageManager(new Driver());
+                 $name_gen = hexdec(uniqid()) . '.' . $img->getClientOriginalExtension();
+                 $imgs = $manager->read($img);
+                 $imgs->resize(150, 150)->save(public_path('upload/productimg/' . $name_gen));
+                 $save_url = 'upload/productimg/' . $name_gen;
+
+                $product->images()->create([
+                     'product_id' => $product_id,
+                     'image' => $save_url
+                 ]);
+            }
+        }
+
+            if($request->has('remove_image')){
+                foreach($request->input('remove_image') as $removeImageId){
+                    $image = ProductImage::find($removeImageId);
+                    if($image){
+                        // Delete the image file from the server
+                        if(file_exists(public_path($image->image))){
+                            unlink(public_path($image->image));
+                        }
+                        // Delete the image record from the database
+                        $image->delete();
+                    }
+                }
+            }
+
+        
+        $notification = array(
+            'message' => 'Product Updated Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('all.product')->with($notification);
+     
+    }
 }
