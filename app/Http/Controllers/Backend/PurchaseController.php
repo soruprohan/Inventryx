@@ -114,4 +114,14 @@ class PurchaseController extends Controller
             return response()->json(['error' => 'Failed to store purchase: ' . $e->getMessage()], 500);
         }
     }
+
+    //End Method
+
+    public function EditPurchase($id)
+    {
+        $editData = Purchase::with('purchaseItems.product')->findOrFail($id);
+        $suppliers = Supplier::all();
+        $warehouses = WareHouse::all();
+        return view('admin.backend.purchase.edit_purchase', compact('editData','suppliers','warehouses'));
+    }
 }
