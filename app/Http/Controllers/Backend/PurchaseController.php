@@ -12,6 +12,8 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use App\Models\Purchase;
 use App\Models\PurchaseItem;
+use Illuminate\Support\Facades\DB;
+
 class PurchaseController extends Controller
 {
     public function AllPurchase()
@@ -47,4 +49,69 @@ class PurchaseController extends Controller
     }
 
     //End Method
+    public function StorePurchase(Request $request)
+    {
+        $request->validate([
+            'date' => 'required|date',
+            'status' => 'required',
+            'supplier_id' => 'required',
+        ]);
+
+        try{
+
+            DB::beginTransaction();
+            $grandTotal = 0;
+
+            $purchase = Purchase::create([
+                'date' => $request->date,
+                'supplier_id' => $request->supplier_id,
+                'warehouse_id' => $request->warehouse_id,
+                'discount' => $request->discount ?? 0,
+                'shipping' => $request->shipping ?? 0,
+                'status' => $request->status,
+                'note' => $request->note,
+                'grand_total' => 0
+            ]);
+
+        ///Store Purchase Item and Update Product Stock
+
+        foreach($request->products as $productData){
+            $product = Product::find($productData['id']);
+            $netUnitCost=$productData['net_unit_cost'] ?? $product->price;
+
+            if(($netUnitCost==null)){
+                throw new \Exception("Net unit cost is missing for product ID: ".$productData['id']);
+            }
+
+            $subtotal = ($netUnitCost * $productData['quantity']) - ($productData['discount'] ?? 0);
+            $grandTotal += $subtotal;
+
+            PurchaseItem::create([
+                'purchase_id' => $purchase->id,
+                'product_id' => $productData['id'],
+                'quantity' => $productData['quantity'],
+                'net_unit_cost' => $netUnitCost,
+                'stock' => $product->product_qty + $productData['quantity'],
+                'quantity' => $productData['quantity'],
+                'discount' => $productData['discount'] ?? 0,
+                'subtotal' => $subtotal
+            ]);
+            // Update Product Stock
+            $product->increment('product_qty', $productData['quantity']);
+        }
+
+        // Update Grand Total in Purchase
+        $purchase->update(['grand_total' => $grandTotal + ($request->shipping ?? 0) - ($request->discount ?? 0)]);
+        DB::commit();
+        $notification = array(
+            'message' => 'Purchase Stored Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('all.purchase')->with($notification);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Failed to store purchase: ' . $e->getMessage()], 500);
+        }
+    }
 }

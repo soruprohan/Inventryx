@@ -101,6 +101,6 @@ require __DIR__.'/auth.php';
         Route::get('/all/purchase', 'AllPurchase')->name('all.purchase');
         Route::get('/add/purchase', 'AddPurchase')->name('add.purchase');
         Route::get('/purchase/product/search', 'PurchaseProductSearch')->name('purchase.product.search');
-
+        Route::post('/store/purchase', 'StorePurchase')->name('store.purchase');
     });
 });
