@@ -13,7 +13,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use App\Models\Purchase;
 use App\Models\PurchaseItem;
 use Illuminate\Support\Facades\DB;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 class PurchaseController extends Controller
 {
     public function AllPurchase()
@@ -205,6 +205,15 @@ class PurchaseController extends Controller
     {
         $purchase = Purchase::with('purchaseItems.product')->findOrFail($id);
         return view('admin.backend.purchase.details_purchase', compact('purchase'));
+    }
+    //End Method
+
+    public function InvoicePurchase($id)
+    {
+        $purchase = Purchase::with('purchaseItems.product')->findOrFail($id);
+
+        $pdf = Pdf::loadView('admin.backend.purchase.invoice_purchase', compact('purchase'));
+        return $pdf->download('purchase_invoice_'.$id.'.pdf');
     }
     //End Method
 }
