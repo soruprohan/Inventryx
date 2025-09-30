@@ -107,6 +107,5 @@ require __DIR__.'/auth.php';
         Route::get('/delete/purchase/{id}', 'DeletePurchase')->name('delete.purchase');
         Route::get('/details/purchase/{id}', 'DetailsPurchase')->name('details.purchase');
         Route::get('/invoice/purchase/{id}', 'InvoicePurchase')->name('invoice.purchase');
-        Route::get('/invoice/purchase/download/{id}', 'PurchaseInvoiceDownload')->name('invoice.purchase.download');
     });
 });

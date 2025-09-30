@@ -14,6 +14,7 @@ use App\Models\Purchase;
 use App\Models\PurchaseItem;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+
 class PurchaseController extends Controller
 {
     public function AllPurchase()
@@ -126,14 +127,15 @@ class PurchaseController extends Controller
 
     //End Method
 
-     public function UpdatePurchase(Request $request,$id){
+    public function UpdatePurchase(Request $request, $id)
+    {
 
         $request->validate([
             'date' => 'required|date',
-            'status' => 'required', 
-        ]); 
+            'status' => 'required',
+        ]);
 
-        DB::beginTransaction(); 
+        DB::beginTransaction();
 
         try {
 
@@ -147,57 +149,56 @@ class PurchaseController extends Controller
                 'shipping' => $request->shipping ?? 0,
                 'status' => $request->status,
                 'note' => $request->note,
-                'grand_total' => $request->grand_total, 
+                'grand_total' => $request->grand_total,
             ]);
 
-        /// Get Old Purchase Items 
-        $oldPurchaseItems = PurchaseItem::where('purchase_id',$purchase->id)->get();
+            /// Get Old Purchase Items 
+            $oldPurchaseItems = PurchaseItem::where('purchase_id', $purchase->id)->get();
 
-        /// Loop for old purchase items and decrement product qty
-         foreach($oldPurchaseItems as $oldItem){
-            $product = Product::find($oldItem->product_id);
-            if ($product) {
-                $product->decrement('product_qty',$oldItem->quantity);
-                // Decrement old quantity 
+            /// Loop for old purchase items and decrement product qty
+            foreach ($oldPurchaseItems as $oldItem) {
+                $product = Product::find($oldItem->product_id);
+                if ($product) {
+                    $product->decrement('product_qty', $oldItem->quantity);
+                    // Decrement old quantity 
+                }
             }
-         }
 
-         /// Delete old Purchase Items 
-         PurchaseItem::where('purchase_id',$purchase->id)->delete();
+            /// Delete old Purchase Items 
+            PurchaseItem::where('purchase_id', $purchase->id)->delete();
 
-         // loop for new products and insert new purchase items
+            // loop for new products and insert new purchase items
 
-        foreach($request->products as $product_id => $productData){
-        PurchaseItem::create([
-            'purchase_id' => $purchase->id,
-            'product_id' => $product_id,
-            'net_unit_cost' => $productData['net_unit_cost'],
-            'stock' => $productData['stock'],
-            'quantity' => $productData['quantity'],
-            'discount' => $productData['discount'] ?? 0,
-            'subtotal' => $productData['subtotal'],  
-        ]);
+            foreach ($request->products as $product_id => $productData) {
+                PurchaseItem::create([
+                    'purchase_id' => $purchase->id,
+                    'product_id' => $product_id,
+                    'net_unit_cost' => $productData['net_unit_cost'],
+                    'stock' => $productData['stock'],
+                    'quantity' => $productData['quantity'],
+                    'discount' => $productData['discount'] ?? 0,
+                    'subtotal' => $productData['subtotal'],
+                ]);
 
-        /// Update product stock by incremeting new quantity 
-        $product = Product::find($product_id);
-        if ($product) {
-            $product->increment('product_qty',$productData['quantity']);
-            // Increment new quantity
-         } 
-       }
+                /// Update product stock by incremeting new quantity 
+                $product = Product::find($product_id);
+                if ($product) {
+                    $product->increment('product_qty', $productData['quantity']);
+                    // Increment new quantity
+                }
+            }
 
-       DB::commit();
+            DB::commit();
 
-       $notification = array(
-           'message' => 'Purchase Updated Successfully',
-           'alert-type' => 'success'
-        ); 
-        return redirect()->route('all.purchase')->with($notification);  
-
+            $notification = array(
+                'message' => 'Purchase Updated Successfully',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('all.purchase')->with($notification);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => $e->getMessage()], 500);
-          }   
+        }
     }
     // End Method 
 
@@ -213,7 +214,41 @@ class PurchaseController extends Controller
         $purchase = Purchase::with('purchaseItems.product')->findOrFail($id);
 
         $pdf = Pdf::loadView('admin.backend.purchase.invoice_purchase', compact('purchase'));
-        return $pdf->download('purchase_invoice_'.$id.'.pdf');
+        return $pdf->download('purchase_invoice_' . $id . '.pdf');
+    }
+    //End Method
+
+    public function DeletePurchase($id)
+    {
+        try {
+            DB::beginTransaction();
+            $purchase = Purchase::findOrFail($id);
+            $purchaseItems = PurchaseItem::where('purchase_id', $id)->get();
+
+            // Decrement product stock based on purchase items
+            foreach ($purchaseItems as $item) {
+                $product = Product::find($item->product_id);
+                if ($product) {
+                    $product->decrement('product_qty', $item->quantity);
+                }
+            }
+
+            // Delete purchase items
+            PurchaseItem::where('purchase_id', $id)->delete();
+            // Delete purchase
+            $purchase->delete();
+            DB::commit();
+
+            $notification = array(
+                'message' => 'Purchase Deleted Successfully',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->back()->with($notification);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Failed to delete purchase: ' . $e->getMessage()], 500);
+        }
     }
     //End Method
 }
