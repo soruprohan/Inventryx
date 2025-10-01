@@ -132,7 +132,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td class="py-3">Due Amount</td>
-                                                                    <td class="py-3" id="dueAmount">TK 0.00</td>
+                                                                    <td class="py-3" id="dueAmount">$ 0.00</td>
                                                                     <input type="hidden" name="due_amount">
                                                                 </tr>
 

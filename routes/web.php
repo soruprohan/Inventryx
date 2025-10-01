@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\PurchaseController;
 use App\Http\Controllers\Backend\ReturnPurchaseController;
+use App\Http\Controllers\Backend\SaleController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -119,5 +120,16 @@ require __DIR__.'/auth.php';
         Route::get('/delete/return/purchase/{id}', 'DeleteReturnPurchase')->name('delete.return.purchase');
         Route::get('/details/return/purchase/{id}', 'DetailsReturnPurchase')->name('details.return.purchase');
         Route::get('/invoice/return/purchase/{id}', 'InvoiceReturnPurchase')->name('invoice.return.purchase');
+    });
+
+    Route::controller(SaleController::class)->group(function(){
+        Route::get('/all/sale', 'AllSale')->name('all.sale');
+        Route::get('/add/sale', 'AddSale')->name('add.sale');
+        Route::post('/store/sale', 'StoreSale')->name('store.sale');
+        Route::get('/edit/sale/{id}', 'EditSale')->name('edit.sale');
+        Route::post('/update/sale/{id}', 'UpdateSale')->name('update.sale');
+        Route::get('/delete/sale/{id}', 'DeleteSale')->name('delete.sale');
+        Route::get('/details/sale/{id}', 'DetailsSale')->name('details.sale');
+        Route::get('/invoice/sale/{id}', 'InvoiceSale')->name('invoice.sale');
     });
 });

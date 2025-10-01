@@ -30,6 +30,7 @@ class PurchaseController extends Controller
         $warehouses = WareHouse::all();
         return view('admin.backend.purchase.add_purchase', compact('suppliers', 'warehouses'));
     }
+    //End Method
 
     public function PurchaseProductSearch(Request $request)
     {
@@ -90,7 +91,6 @@ class PurchaseController extends Controller
                 PurchaseItem::create([
                     'purchase_id' => $purchase->id,
                     'product_id' => $productData['id'],
-                    'quantity' => $productData['quantity'],
                     'net_unit_cost' => $netUnitCost,
                     'stock' => $product->product_qty + $productData['quantity'],
                     'quantity' => $productData['quantity'],

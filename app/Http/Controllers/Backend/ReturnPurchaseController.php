@@ -75,7 +75,7 @@ class ReturnPurchaseController extends Controller
                     'product_id' => $productData['id'],
                     'quantity' => $productData['quantity'],
                     'net_unit_cost' => $netUnitCost,
-                    'stock' => $product->product_qty + $productData['quantity'],
+                    'stock' => $product->product_qty - $productData['quantity'],
                     'quantity' => $productData['quantity'],
                     'discount' => $productData['discount'] ?? 0,
                     'subtotal' => $subtotal
