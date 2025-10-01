@@ -188,8 +188,24 @@ class SaleController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-    // End Method 
+    // End Method
 
+    public function DetailsSale($id)
+    {
+        $sale = Sale::with('saleItems.product')->findOrFail($id);
+        return view('admin.backend.sale.details_sale', compact('sale'));
+    }
+    //End Method
+
+    public function InvoiceSale($id)
+    {
+        $sale = Sale::with('saleItems.product')->findOrFail($id);
+
+        $pdf = Pdf::loadView('admin.backend.sale.invoice_sale', compact('sale'));
+        return $pdf->download('sale_invoice_' . $id . '.pdf');
+    }
+    //End Method
+    
     public function DeleteSale($id)
     {
         try {
