@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Purchase Invoice</title>
+    <title>Return Purchase Invoice</title>
     <style>
         * {
             margin: 0;
