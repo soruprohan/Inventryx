@@ -217,14 +217,14 @@ class TransferController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-    // // End Method
+    // End Method
 
-    // public function DetailsSaleReturn($id)
-    // {
-    //     $sale = SaleReturn::with('saleReturnItems.product')->findOrFail($id);
-    //     return view('admin.backend.return_sale.details_return_sale', compact('sale'));
-    // }
-    // //End Method
+    public function DetailsTransfer($id)
+    {
+        $transfer = Transfer::with(['transferItems.product','fromWarehouse','toWarehouse'])->findOrFail($id);
+        return view('admin.backend.transfer.details_transfer', compact('transfer'));
+    }
+    // End Method
 
     public function DeleteTransfer($id)
     {
