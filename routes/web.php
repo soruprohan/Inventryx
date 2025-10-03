@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\PurchaseController;
 use App\Http\Controllers\Backend\ReturnPurchaseController;
 use App\Http\Controllers\Backend\SaleController;
 use App\Http\Controllers\Backend\SaleReturnController;
+use App\Http\Controllers\Backend\DueController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -143,5 +144,10 @@ require __DIR__.'/auth.php';
         Route::get('/delete/sale/return/{id}', 'DeleteSaleReturn')->name('delete.sale.return');
         Route::get('/details/sale/return/{id}', 'DetailsSaleReturn')->name('details.sale.return');
         Route::get('/invoice/sale/return/{id}', 'InvoiceSaleReturn')->name('invoice.sale.return');
+    });
+
+     Route::controller(DueController::class)->group(function(){
+        Route::get('/due/sale', 'DueSale')->name('due.sale');
+        Route::get('/due/sale.return', 'DueSaleReturn')->name('due.sale.return');
     });
 });
