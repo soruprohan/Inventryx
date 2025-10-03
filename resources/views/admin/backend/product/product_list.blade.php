@@ -54,7 +54,7 @@
                                     <td>{{ $item['warehouse']['name'] }}</td>
                                     <td>{{ $item->price }}</td>
                                     <td>
-                                        @if ($item->product_qty <= 3)
+                                        @if ($item->product_qty <= $item->stock_alert)
                                             <span class="badge text-bg-danger">{{ $item->product_qty }}</span>
                                             @else
                                             <h4> <span class="badge text-bg-secondary">{{ $item->product_qty }}</span></h4>

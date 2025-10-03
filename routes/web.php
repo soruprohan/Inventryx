@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\ReturnPurchaseController;
 use App\Http\Controllers\Backend\SaleController;
 use App\Http\Controllers\Backend\SaleReturnController;
 use App\Http\Controllers\Backend\DueController;
+use App\Http\Controllers\Backend\TransferController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -149,5 +150,16 @@ require __DIR__.'/auth.php';
      Route::controller(DueController::class)->group(function(){
         Route::get('/due/sale', 'DueSale')->name('due.sale');
         Route::get('/due/sale.return', 'DueSaleReturn')->name('due.sale.return');
+    });
+
+    Route::controller(TransferController::class)->group(function(){
+        Route::get('/all/transfer', 'AllTransfer')->name('all.transfer');
+        Route::get('/add/transfer', 'AddTransfer')->name('add.transfer');
+        Route::post('/store/transfer', 'StoreTransfer')->name('store.transfer');
+        Route::get('/edit/transfer/{id}', 'EditTransfer')->name('edit.transfer');
+        Route::post('/update/transfer/{id}', 'UpdateTransfer')->name('update.transfer');
+        Route::get('/delete/transfer/{id}', 'DeleteTransfer')->name('delete.transfer');
+        Route::get('/details/transfer/{id}', 'DetailsTransfer')->name('details.transfer');
+        Route::get('/invoice/transfer/{id}', 'InvoiceTransfer')->name('invoice.transfer');
     });
 });

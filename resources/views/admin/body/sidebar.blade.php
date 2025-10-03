@@ -167,12 +167,12 @@
 
 
                             <li>
-                                <a href="#sidebarError" data-bs-toggle="collapse">
+                                <a href="#Due" data-bs-toggle="collapse">
                                     <i data-feather="alert-octagon"></i>
                                     <span> Due Setup </span>
                                     <span class="menu-arrow"></span>
                                 </a>
-                                <div class="collapse" id="sidebarError">
+                                <div class="collapse" id="Due">
                                     <ul class="nav-second-level">
                                         <li>
                                             <a href="{{route('due.sale')}}" class="tp-link">Sales Due</a>
@@ -181,6 +181,21 @@
                                             <a href="{{route('due.sale.return')}}" class="tp-link">Sales Return Due</a>
                                         </li>
                                         
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li>
+                                <a href="#Transfers" data-bs-toggle="collapse">
+                                    <i data-feather="alert-octagon"></i>
+                                    <span> Transfers Setup </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="Transfers">
+                                    <ul class="nav-second-level">
+                                        <li>
+                                            <a href="{{route('all.transfer')}}" class="tp-link">Transfers</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
