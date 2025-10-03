@@ -42,26 +42,26 @@
                             </thead>
                             <tbody>
                                 @foreach ($allData as $key=> $item)
-                               <tr>
+                                <tr>
                                     <td>{{ $key+1 }}</td>
                                     <td>{{ \Carbon\Carbon::parse($item->date)->format('Y-m-d') }}</td>
                                     <td>{{ $item['fromWarehouse']['name'] }}</td>
                                     <td>{{ $item['toWarehouse']['name'] }}</td>
                                     <td>
-                                            @foreach ($item->transferItems as $transferItem)
-                                                {{ $transferItem->product->name ?? 'N/A' }}<br>
-                                            @endforeach
+                                        @foreach ($item->transferItems as $transferItem)
+                                        {{ $transferItem->product->name ?? 'N/A' }}<br>
+                                        @endforeach
                                     </td>
                                     <td>
-                                            @foreach ($item->transferItems as $transferItem)
-                                                {{ $transferItem->quantity ?? 'N/A' }}<br>
-                                            @endforeach
+                                        @foreach ($item->transferItems as $transferItem)
+                                        <h4> <span class="badge text-bg-info">{{ $transferItem->quantity ?? 'N/A' }}</span></h4><br>
+                                        @endforeach
                                     </td>
 
                                     <td>
-                                        <a title="Details" href="{{ route('details.sale',$item->id) }}" class="btn btn-info btn-sm"><span class="mdi mdi-eye-circle mdi-18px"></span></a>
-                                        <a title="Edit" href="{{ route('edit.sale',$item->id) }}" class="btn btn-success btn-sm"><span class="mdi mdi-book-edit mdi-18px"></span></a>
-                                        <a title="Delete" href="{{ route('delete.sale',$item->id) }}" class="btn btn-danger btn-sm" id="delete"><span class="mdi mdi-delete-circle mdi-18px"></span></a>
+                                        <a title="Details" href="{{ route('details.transfer',$item->id) }}" class="btn btn-info btn-sm"><span class="mdi mdi-eye-circle mdi-18px"></span></a>
+                                        <a title="Edit" href="{{ route('edit.transfer',$item->id) }}" class="btn btn-success btn-sm"><span class="mdi mdi-book-edit mdi-18px"></span></a>
+                                        <a title="Delete" href="{{ route('delete.transfer',$item->id) }}" class="btn btn-danger btn-sm" id="delete"><span class="mdi mdi-delete-circle mdi-18px"></span></a>
                                     </td>
                                 </tr>
                                 @endforeach

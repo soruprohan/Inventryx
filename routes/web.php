@@ -160,6 +160,5 @@ require __DIR__.'/auth.php';
         Route::post('/update/transfer/{id}', 'UpdateTransfer')->name('update.transfer');
         Route::get('/delete/transfer/{id}', 'DeleteTransfer')->name('delete.transfer');
         Route::get('/details/transfer/{id}', 'DetailsTransfer')->name('details.transfer');
-        Route::get('/invoice/transfer/{id}', 'InvoiceTransfer')->name('invoice.transfer');
     });
 });

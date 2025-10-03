@@ -129,92 +129,94 @@ class TransferController extends Controller
     }
     // End Method 
 
-    // public function EditSaleReturn($id)
-    // {
-    //     $editData = SaleReturn::with('saleReturnItems.product')->findOrFail($id);
-    //     $customers = Customer::all();
-    //     $warehouses = WareHouse::all();
-    //     return view('admin.backend.return_sale.edit_return_sale', compact('editData', 'customers', 'warehouses'));
-    // }
+    public function EditTransfer($id)
+    {
+        $editData = Transfer::with(['transferItems.product','fromWarehouse','toWarehouse'])->findOrFail($id);
+        $warehouses = WareHouse::all();
+        return view('admin.backend.transfer.edit_transfer', compact('editData', 'warehouses'));
+    }
 
     // //End Method
 
-    // public function UpdateSaleReturn(Request $request, $id)
-    // {
+    public function UpdateTransfer(Request $request, $id)
+    {
 
-    //     $request->validate([
-    //         'date' => 'required|date',
-    //         'status' => 'required',
-    //     ]);
+        $request->validate([
+            'date' => 'required|date',
+            'status' => 'required',
+        ]);
 
-    //     DB::beginTransaction();
+        DB::beginTransaction();
 
-    //     try {
+        try {
 
-    //         $sale = SaleReturn::findOrFail($id);
+            $transfer = Transfer::findOrFail($id);
 
-    //         $sale->update([
-    //             'date' => $request->date,
-    //             'warehouse_id' => $request->warehouse_id,
-    //             'customer_id' => $request->customer_id,
-    //             'discount' => $request->discount ?? 0,
-    //             'shipping' => $request->shipping ?? 0,
-    //             'status' => $request->status,
-    //             'note' => $request->note,
-    //             'grand_total' => $request->grand_total,
-    //             'paid_amount' => $request->paid_amount,
-    //             'due_amount' => $request->due_amount,
-    //             'full_paid' => $request->full_paid,
-    //         ]);
+            $transfer->update([
+                'date' => $request->date,
+                'from_warehouse_id' => $request->from_warehouse_id,
+                'to_warehouse_id' => $request->to_warehouse_id,
+                'discount' => $request->discount ?? 0,
+                'shipping' => $request->shipping ?? 0,
+                'status' => $request->status,
+                'note' => $request->note,
+                'grand_total' => $request->grand_total
+            ]);
 
-    //         /// Get Old Sale Return Items 
-    //         $oldSaleItems = SaleReturnItem::where('sale_return_id', $sale->id)->get();
+            /// Get Old Transfer Items 
+            $oldTransferItems = TransferItem::where('transfer_id', $transfer->id)->get();
 
-    //         /// Loop for old sale return items and decrement product qty
-    //         foreach ($oldSaleItems as $oldItem) {
-    //             $product = Product::find($oldItem->product_id);
-    //             if ($product) {
-    //                 $product->decrement('product_qty', $oldItem->quantity);
-    //                 // Increment old quantity
-    //             }
-    //         }
+            foreach ($oldTransferItems as $oldItem) {
+                Product::find($oldItem->product_id)
+                        ->where('warehouse_id', $transfer->from_warehouse_id)
+                        ->increment('product_qty', $oldItem->quantity);
+                    // Increment from warehouse quantity
 
-    //         /// Delete old Sale Return Items 
-    //         SaleReturnItem::where('sale_return_id', $sale->id)->delete();
+                Product::find($oldItem->product_id)
+                        ->where('warehouse_id', $transfer->to_warehouse_id)
+                        ->decrement('product_qty', $oldItem->quantity);
+                    // decrement to warehouse quantity
+                
+            }
 
-    //         // loop for new products and insert new sale return items
+            /// Delete old Transfer Items 
+            TransferItem::where('transfer_id', $transfer->id)->delete();
 
-    //         foreach ($request->products as $product_id => $productData) {
-    //             SaleReturnItem::create([
-    //                 'sale_return_id' => $sale->id,
-    //                 'product_id' => $product_id,
-    //                 'net_unit_cost' => $productData['net_unit_cost'],
-    //                 'stock' => $productData['stock'],
-    //                 'quantity' => $productData['quantity'],
-    //                 'discount' => $productData['discount'] ?? 0,
-    //                 'subtotal' => $productData['subtotal'],
-    //             ]);
+            // loop for new products and insert new transfer items
+            foreach ($request->products as $product_id => $productData) {
+                TransferItem::create([
+                    'transfer_id' => $transfer->id,
+                    'product_id' => $product_id,
+                    'net_unit_cost' => $productData['net_unit_cost'],
+                    'stock' => $productData['stock'],
+                    'quantity' => $productData['quantity'],
+                    'discount' => $productData['discount'] ?? 0,
+                    'subtotal' => $productData['subtotal'],
+                ]);
 
-    //             /// Update product stock by incrementing new quantity
-    //             $product = Product::find($product_id);
-    //             if ($product) {
-    //                 $product->increment('product_qty', $productData['quantity']);
-    //                 // Increment new quantity
-    //             }
-    //         }
+                Product::where('id', $product_id)
+                        ->where('warehouse_id', $transfer->from_warehouse_id)
+                        ->decrement('product_qty', $productData['quantity']);
+                    // decrement 'from_warehouse' quantity
 
-    //         DB::commit();
+                Product::where('id', $product_id)
+                        ->where('warehouse_id', $transfer->to_warehouse_id)
+                        ->increment('product_qty', $productData['quantity']);
+                    // increment 'to_warehouse' quantity
+            }
 
-    //         $notification = array(
-    //             'message' => 'Sale Return Updated Successfully',
-    //             'alert-type' => 'success'
-    //         );
-    //         return redirect()->route('all.sale.return')->with($notification);
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         return response()->json(['error' => $e->getMessage()], 500);
-    //     }
-    // }
+            DB::commit();
+
+            $notification = array(
+                'message' => 'Transfer Updated Successfully',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('all.transfer')->with($notification);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
     // // End Method
 
     // public function DetailsSaleReturn($id)
@@ -224,46 +226,43 @@ class TransferController extends Controller
     // }
     // //End Method
 
-    // public function InvoiceSaleReturn($id)
-    // {
-    //     $sale = SaleReturn::with('saleReturnItems.product')->findOrFail($id);
+    public function DeleteTransfer($id)
+    {
+        try {
+            DB::beginTransaction();
+            $transfer = Transfer::findOrFail($id);
+            $transferItems = TransferItem::where('transfer_id', $id)->get();
 
-    //     $pdf = Pdf::loadView('admin.backend.return_sale.invoice_return_sale', compact('sale'));
-    //     return $pdf->download('return_sale_invoice_' . $id . '.pdf');
-    // }
-    // //End Method
+            /// Loop for old transfer items and increment product qty
+            foreach ($transferItems as $item) {
+                Product::where('id', $item->product_id)
+                        ->where('warehouse_id', $transfer->from_warehouse_id)
+                        ->increment('product_qty', $item->quantity);
+                    // increment 'from_warehouse' quantity
 
-    // public function DeleteSaleReturn($id)
-    // {
-    //     try {
-    //         DB::beginTransaction();
-    //         $sale = SaleReturn::findOrFail($id);
-    //         $saleItems = SaleReturnItem::where('sale_return_id', $id)->get();
+                Product::where('id', $item->product_id)
+                        ->where('warehouse_id', $transfer->to_warehouse_id)
+                        ->decrement('product_qty', $item->quantity);
+                    // increment 'to_warehouse' quantity
+                
+            }
 
-    //         // Decrement product stock based on sale return items
-    //         foreach ($saleItems as $item) {
-    //             $product = Product::find($item->product_id);
-    //             if ($product) {
-    //                 $product->decrement('product_qty', $item->quantity);
-    //             }
-    //         }
+            // Delete transfer items
+            TransferItem::where('transfer_id', $id)->delete();
+            // Delete transfer
+            $transfer->delete();
+            DB::commit();
 
-    //         // Delete sale return items
-    //         SaleReturnItem::where('sale_return_id', $id)->delete();
-    //         // Delete sale return
-    //         $sale->delete();
-    //         DB::commit();
+            $notification = array(
+                'message' => 'Transfer Deleted Successfully',
+                'alert-type' => 'success'
+            );
 
-    //         $notification = array(
-    //             'message' => 'Sale Return Deleted Successfully',
-    //             'alert-type' => 'success'
-    //         );
-
-    //         return redirect()->back()->with($notification);
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         return response()->json(['error' => 'Failed to delete purchase: ' . $e->getMessage()], 500);
-    //     }
-    // }
-    // //End Method
+            return redirect()->back()->with($notification);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Failed to delete purchase: ' . $e->getMessage()], 500);
+        }
+    }
+    //End Method
 }
