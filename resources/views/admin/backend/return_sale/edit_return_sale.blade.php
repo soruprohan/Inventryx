@@ -5,14 +5,14 @@
     <div class="d-flex flex-column-fluid">
         <div class="container-fluid my-4">
             <div class="d-md-flex align-items-center justify-content-between">
-                <h3 class="mb-0">Edit Sale</h3>
-                <div class="text-end my-2 mt-md-0"><a class="btn btn-outline-primary" href="{{ route('all.sale') }}">Back</a></div>
+                <h3 class="mb-0">Edit Sale Return</h3>
+                <div class="text-end my-2 mt-md-0"><a class="btn btn-outline-primary" href="{{ route('all.sale.return') }}">Back</a></div>
             </div>
 
 
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('update.sale', $editData->id) }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('update.sale.return', $editData->id) }}" method="post" enctype="multipart/form-data">
                         @csrf
 
                         <div class="row">
@@ -90,7 +90,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="productBody">
-                                                    @foreach($editData->saleItems as $item)
+                                                    @foreach($editData->saleReturnItems as $item)
                                                     <tr data-id="{{ $item->id }}">
                                                         <td class="d-flex align-items-center gap-2">
                                                             <input type="text" class="form-control" value="{{ $item->product->code }} - {{ $item->product->name }}" readonly style="max-width:300px">
@@ -202,7 +202,7 @@
                                                 <label class="form-label" for="formBasic">Status : <span class="text-danger">*</span></label>
                                                 <select name="status" id="status" class="form-control form-select">
                                                     <option value="">Select Status</option>
-                                                    <option value="Sold" {{ $editData->status == 'Sold' ? 'selected' : '' }}>Sold</option>
+                                                    <option value="Returned" {{ $editData->status == 'Returned' ? 'selected' : '' }}>Returned</option>
                                                     <option value="Pending" {{ $editData->status == 'Pending' ? 'selected' : '' }}>Pending</option>
                                                     <option value="Ordered" {{ $editData->status == 'Ordered' ? 'selected' : '' }}>Ordered</option>
                                                 </select>
@@ -224,7 +224,7 @@
                         <div class="col-xl-12">
                             <div class="d-flex mt-5 justify-content-end">
                                 <button class="btn btn-primary me-3" type="submit">Save</button>
-                                <a class="btn btn-secondary" href="{{ route('all.sale') }}">Cancel</a>
+                                <a class="btn btn-secondary" href="{{ route('all.sale.return') }}">Cancel</a>
                             </div>
                         </div>
                 </div>
