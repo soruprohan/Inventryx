@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\SaleController;
 use App\Http\Controllers\Backend\SaleReturnController;
 use App\Http\Controllers\Backend\DueController;
 use App\Http\Controllers\Backend\TransferController;
+use App\Http\Controllers\Backend\RoleController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -161,4 +162,23 @@ require __DIR__.'/auth.php';
         Route::get('/delete/transfer/{id}', 'DeleteTransfer')->name('delete.transfer');
         Route::get('/details/transfer/{id}', 'DetailsTransfer')->name('details.transfer');
     });
+
+    Route::controller(RoleController::class)->group(function(){
+        Route::get('/all/permission', 'AllPermission')->name('all.permission');
+        Route::get('/add/permission', 'AddPermission')->name('add.permission');
+        Route::post('/store/permission', 'StorePermission')->name('store.permission');
+        Route::get('/edit/permission/{id}', 'EditPermission')->name('edit.permission');
+        Route::post('/update/permission', 'UpdatePermission')->name('update.permission');
+        Route::get('/delete/permission/{id}', 'DeletePermission')->name('delete.permission');  
+    });
+
+     Route::controller(RoleController::class)->group(function(){
+        Route::get('/all/roles', 'AllRole')->name('all.roles');
+        Route::get('/add/roles', 'AddRole')->name('add.roles');
+        Route::post('/store/roles', 'StoreRole')->name('store.roles');
+        Route::get('/edit/roles/{id}', 'EditRole')->name('edit.roles');
+        Route::post('/update/roles', 'UpdateRole')->name('update.roles');
+        Route::get('/delete/roles/{id}', 'DeleteRole')->name('delete.roles');
+    });
+    
 });

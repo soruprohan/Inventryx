@@ -207,16 +207,16 @@
                             <li>
                                 <a href="#sidebarBaseui" data-bs-toggle="collapse">
                                     <i data-feather="package"></i>
-                                    <span> Components </span>
+                                    <span> Role & Permissions </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="sidebarBaseui">
                                     <ul class="nav-second-level">
                                         <li>
-                                            <a href="ui-accordions.html" class="tp-link">Accordions</a>
+                                            <a href="{{route('all.permission')}}" class="tp-link">All Permissions</a>
                                         </li>
                                         <li>
-                                            <a href="ui-alerts.html" class="tp-link">Alerts</a>
+                                            <a href="{{route('all.roles')}}" class="tp-link">All Roles</a>
                                         </li>
                                         
                                     </ul>
