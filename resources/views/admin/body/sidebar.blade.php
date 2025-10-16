@@ -215,8 +215,17 @@
                                         <li>
                                             <a href="{{route('all.permission')}}" class="tp-link">All Permissions</a>
                                         </li>
+
                                         <li>
                                             <a href="{{route('all.roles')}}" class="tp-link">All Roles</a>
+                                        </li>
+                                        
+                                        <li>
+                                            <a href="{{route('add.roles.permission')}}" class="tp-link">Role in Permission</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="{{route('all.roles.permission')}}" class="tp-link">All Role Permission</a>
                                         </li>
                                         
                                     </ul>
