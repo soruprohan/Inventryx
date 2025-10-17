@@ -189,5 +189,14 @@ require __DIR__.'/auth.php';
         Route::post('/admin/roles/update/{id}', 'AdminRolesUpdate')->name('admin.roles.update');
         Route::get('/admin/delete/roles/{id}', 'AdminRolesDelete')->name('admin.delete.roles');
     });
-    
+
+     Route::controller(RoleController::class)->group(function(){
+        Route::get('/all/admin', 'AllAdmin')->name('all.admin');
+        Route::get('/add/admin', 'AddAdmin')->name('add.admin');
+        Route::post('/store/admin', 'StoreAdmin')->name('store.admin');
+        Route::get('/edit/admin/{id}', 'EditAdmin')->name('edit.admin');
+        Route::post('/update/admin/{id}', 'UpdateAdmin')->name('update.admin');
+        Route::get('/delete/admin/{id}', 'DeleteAdmin')->name('delete.admin');
+     });
+
 });
