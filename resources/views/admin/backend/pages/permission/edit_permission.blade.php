@@ -51,6 +51,8 @@
                 <option value="Sale" {{ $permissions->group_name == 'Sale' ? 'selected' : '' }}>Sale</option>
                 <option value="Due" {{ $permissions->group_name == 'Due' ? 'selected' : '' }}>Due</option>
                 <option value="Transfers" {{ $permissions->group_name == 'Transfers' ? 'selected' : '' }}>Transfers</option>
+                <option value="Roles & Permissions" {{ $permissions->group_name == 'Roles & Permissions' ? 'selected' : '' }}>Roles & Permissions</option>
+                <option value="Admin" {{ $permissions->group_name == 'Admin' ? 'selected' : '' }}>Admin</option>
                 <option value="Report" {{ $permissions->group_name == 'Report' ? 'selected' : '' }}>Report</option>
                  
             </select>

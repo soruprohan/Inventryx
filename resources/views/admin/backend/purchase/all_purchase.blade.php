@@ -53,8 +53,12 @@
                                     <td>
                                         <a title="Details" href="{{ route('details.purchase',$item->id) }}" class="btn btn-info btn-sm"><span class="mdi mdi-eye-circle mdi-18px"></span></a>
                                         <a title="PDF Invoice" href="{{ route('invoice.purchase',$item->id) }}" class="btn btn-primary btn-sm"><span class="mdi mdi-download-circle mdi-18px"></span></a>
+                                        @if (Auth::guard('web')->user()->can('edit.purchase')) 
                                         <a title="Edit" href="{{ route('edit.purchase',$item->id) }}" class="btn btn-success btn-sm"><span class="mdi mdi-book-edit mdi-18px"></span></a>
+                                        @endif
+                                        @if (Auth::guard('web')->user()->can('delete.purchase')) 
                                         <a title="Delete" href="{{ route('delete.purchase',$item->id) }}" class="btn btn-danger btn-sm" id="delete"><span class="mdi mdi-delete-circle mdi-18px"></span></a>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach

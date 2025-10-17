@@ -45,9 +45,13 @@
                                     <td>{{ $item->category_name }}</td>
                                     <td>{{ $item->category_slug }}</td>
                                     <td>
+                                        @if (Auth::guard('web')->user()->can('edit.category')) 
                                         <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#category" 
                                         id="{{ $item->id }}" onclick="categoryEdit(this.id)">Edit</button>
+                                        @endif
+                                        @if (Auth::guard('web')->user()->can('delete.category')) 
                                         <a href="{{ route('delete.category', $item->id) }}" class="btn btn-danger btn-sm" id="delete">Delete</a>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach

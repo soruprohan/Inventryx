@@ -47,8 +47,12 @@
                                     <td>{{ $item->phone }}</td>
                                     <td>{{ $item->city }}</td>
                                     <td>
+                                        @if (Auth::guard('web')->user()->can('edit.warehouse'))
                                         <a href="{{ route('edit.warehouse', $item->id) }}" class="btn btn-success btn-sm">Edit</a>
+                                        @endif
+                                        @if (Auth::guard('web')->user()->can('delete.warehouse'))
                                         <a href="{{ route('delete.warehouse', $item->id) }}" class="btn btn-danger btn-sm" id="delete">Delete</a>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach 

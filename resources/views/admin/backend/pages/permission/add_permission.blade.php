@@ -49,7 +49,9 @@
                 <option value="Purchase">Purchase</option>
                 <option value="Sale">Sale</option>
                 <option value="Due">Due</option>
-                <option value="Transfers">Transfers</option>   
+                <option value="Transfers">Transfers</option>
+                <option value="Roles & Permissions">Roles & Permissions</option>
+                <option value="Admin">Admin</option>   
             </select>
         </div> 
             

@@ -47,8 +47,12 @@
                                     <td>{{ $item->phone }}</td>
                                     <td>{{ Str::limit($item->address, 50,'...') }}</td>
                                     <td>
+                                        @if (Auth::guard('web')->user()->can('edit.customer')) 
                                         <a href="{{ route('edit.customer', $item->id) }}" class="btn btn-success btn-sm">Edit</a>
+                                        @endif
+                                        @if (Auth::guard('web')->user()->can('delete.customer')) 
                                         <a href="{{ route('delete.customer', $item->id) }}" class="btn btn-danger btn-sm" id="delete">Delete</a>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach 

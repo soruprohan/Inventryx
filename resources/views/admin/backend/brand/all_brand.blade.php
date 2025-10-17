@@ -43,8 +43,12 @@
                                     <td>{{ $item->name }}</td>
                                     <td><img src="{{ asset($item->image) }}" alt="{{ $item->name }}" style="width: 70px; height: 40px;"></td>
                                     <td>
+                                        @if (Auth::guard('web')->user()->can('edit.brand')) 
                                         <a href="{{ route('edit.brand', $item->id) }}" class="btn btn-success btn-sm">Edit</a>
+                                        @endif
+                                        @if (Auth::guard('web')->user()->can('delete.brand')) 
                                         <a href="{{ route('delete.brand', $item->id) }}" class="btn btn-danger btn-sm" id="delete">Delete</a>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach 

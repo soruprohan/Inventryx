@@ -158,7 +158,7 @@
                                             <a href="{{route('all.purchase')}}" class="tp-link">All Purchase</a>
                                         </li>
                                         @endif
-                                        @if (Auth::guard('web')->user()->can('all.return.purchase')) 
+                                        @if (Auth::guard('web')->user()->can('return.purchase')) 
                                         <li>
                                             <a href="{{route('all.return.purchase')}}" class="tp-link">Purchase Return</a>
                                         </li>
@@ -184,7 +184,7 @@
                                             <a href="{{route('all.sale')}}" class="tp-link">All Sales</a>
                                         </li>
                                         @endif
-                                        @if (Auth::guard('web')->user()->can('all.sale.return')) 
+                                        @if (Auth::guard('web')->user()->can('return.sale')) 
                                         <li>
                                             <a href="{{route('all.sale.return')}}" class="tp-link">Sale Return</a>
                                         </li>
@@ -206,12 +206,12 @@
                                 </a>
                                 <div class="collapse" id="Due">
                                     <ul class="nav-second-level">
-                                        @if (Auth::guard('web')->user()->can('due.sale')) 
+                                        @if (Auth::guard('web')->user()->can('due.sales')) 
                                         <li>
                                             <a href="{{route('due.sale')}}" class="tp-link">Sales Due</a>
                                         </li>
                                         @endif
-                                        @if (Auth::guard('web')->user()->can('due.sale.return')) 
+                                        @if (Auth::guard('web')->user()->can('due.sales.return')) 
                                         <li>
                                             <a href="{{route('due.sale.return')}}" class="tp-link">Sales Return Due</a>
                                         </li>
@@ -245,7 +245,7 @@
 
                             <li class="menu-title mt-2">General</li>
 
-                            @if (Auth::guard('web')->user()->can('role.menu')) 
+                            @if (Auth::guard('web')->user()->can('rolepermission.menu'))
                             <li>
                                 <a href="#sidebarBaseui" data-bs-toggle="collapse">
                                     <i data-feather="package"></i>
@@ -254,25 +254,19 @@
                                 </a>
                                 <div class="collapse" id="sidebarBaseui">
                                     <ul class="nav-second-level">
-                                        @if (Auth::guard('web')->user()->can('all.permission')) 
+                                        @if (Auth::guard('web')->user()->can('all.permission'))
                                         <li>
                                             <a href="{{route('all.permission')}}" class="tp-link">All Permissions</a>
                                         </li>
                                         @endif
 
-                                        @if (Auth::guard('web')->user()->can('all.roles')) 
+                                        @if (Auth::guard('web')->user()->can('all.role'))
                                         <li>
                                             <a href="{{route('all.roles')}}" class="tp-link">All Roles</a>
                                         </li>
                                         @endif
-                                        
-                                        @if (Auth::guard('web')->user()->can('add.roles.permission')) 
-                                        <li>
-                                            <a href="{{route('add.roles.permission')}}" class="tp-link">Role in Permission</a>
-                                        </li>
-                                        @endif
 
-                                        @if (Auth::guard('web')->user()->can('all.roles.permission')) 
+                                        @if (Auth::guard('web')->user()->can('all.rolepermission')) 
                                         <li>
                                             <a href="{{route('all.roles.permission')}}" class="tp-link">All Role Permission</a>
                                         </li>
