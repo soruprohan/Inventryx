@@ -38,10 +38,10 @@
                             <li class="menu-title">Pages</li>
                             @if (Auth::guard('web')->user()->can('brand.menu')) 
                             <li>
-                                <a href="#Brand" data-bs-toggle="collapse">
-                                    <i data-feather="users"></i>
-                                    <span> Brand Manage </span>
-                                    <span class="menu-arrow"></span>
+                                    <a href="#Brand" data-bs-toggle="collapse">
+                                        <i data-feather="tag"></i>
+                                        <span> Brand Manage </span>
+                                        <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="Brand">
                                     <ul class="nav-second-level">
@@ -58,10 +58,10 @@
 
                             @if (Auth::guard('web')->user()->can('warehouse.menu')) 
                             <li>
-                                <a href="#WareHouse" data-bs-toggle="collapse">
-                                    <i data-feather="users"></i>
-                                    <span> WareHouse Manage </span>
-                                    <span class="menu-arrow"></span>
+                                    <a href="#WareHouse" data-bs-toggle="collapse">
+                                        <i data-feather="archive"></i>
+                                        <span> WareHouse Manage </span>
+                                        <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="WareHouse">
                                     <ul class="nav-second-level">
@@ -78,10 +78,10 @@
 
                             @if (Auth::guard('web')->user()->can('supplier.menu')) 
                             <li>
-                                <a href="#Supplier" data-bs-toggle="collapse">
-                                    <i data-feather="users"></i>
-                                    <span> Supplier Manage </span>
-                                    <span class="menu-arrow"></span>
+                                    <a href="#Supplier" data-bs-toggle="collapse">
+                                        <i data-feather="truck"></i>
+                                        <span> Supplier Manage </span>
+                                        <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="Supplier">
                                     <ul class="nav-second-level">
@@ -99,10 +99,10 @@
 
                             @if (Auth::guard('web')->user()->can('customer.menu')) 
                             <li>
-                                <a href="#Customer" data-bs-toggle="collapse">
-                                    <i data-feather="users"></i>
-                                    <span> Customer Manage </span>
-                                    <span class="menu-arrow"></span>
+                                    <a href="#Customer" data-bs-toggle="collapse">
+                                        <i data-feather="user"></i>
+                                        <span> Customer Manage </span>
+                                        <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="Customer">
                                     <ul class="nav-second-level">
@@ -120,10 +120,10 @@
 
                             @if (Auth::guard('web')->user()->can('product.menu')) 
                             <li>
-                                <a href="#Product" data-bs-toggle="collapse">
-                                    <i data-feather="users"></i>
-                                    <span> Product Manage </span>
-                                    <span class="menu-arrow"></span>
+                                    <a href="#Product" data-bs-toggle="collapse">
+                                        <i data-feather="box"></i>
+                                        <span> Product Manage </span>
+                                        <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="Product">
                                     <ul class="nav-second-level">
@@ -146,10 +146,10 @@
 
                             @if (Auth::guard('web')->user()->can('purchase.menu')) 
                             <li>
-                                <a href="#Purchase" data-bs-toggle="collapse">
-                                    <i data-feather="users"></i>
-                                    <span> Purchase Manage </span>
-                                    <span class="menu-arrow"></span>
+                                    <a href="#Purchase" data-bs-toggle="collapse">
+                                        <i data-feather="shopping-cart"></i>
+                                        <span> Purchase Manage </span>
+                                        <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="Purchase">
                                     <ul class="nav-second-level">
@@ -172,10 +172,10 @@
 
                             @if (Auth::guard('web')->user()->can('sale.menu')) 
                             <li>
-                                <a href="#Sale" data-bs-toggle="collapse">
-                                    <i data-feather="users"></i>
-                                    <span> Sale Manage </span>
-                                    <span class="menu-arrow"></span>
+                                    <a href="#Sale" data-bs-toggle="collapse">
+                                        <i data-feather="dollar-sign"></i>
+                                        <span> Sale Manage </span>
+                                        <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="Sale">
                                     <ul class="nav-second-level">
@@ -199,10 +199,10 @@
 
                             @if (Auth::guard('web')->user()->can('due.menu')) 
                             <li>
-                                <a href="#Due" data-bs-toggle="collapse">
-                                    <i data-feather="alert-octagon"></i>
-                                    <span> Due Setup </span>
-                                    <span class="menu-arrow"></span>
+                                    <a href="#Due" data-bs-toggle="collapse">
+                                        <i data-feather="credit-card"></i>
+                                        <span> Due Setup </span>
+                                        <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="Due">
                                     <ul class="nav-second-level">
@@ -224,10 +224,10 @@
 
                             @if (Auth::guard('web')->user()->can('transfer.menu')) 
                             <li>
-                                <a href="#Transfers" data-bs-toggle="collapse">
-                                    <i data-feather="alert-octagon"></i>
-                                    <span> Transfers Setup </span>
-                                    <span class="menu-arrow"></span>
+                                    <a href="#Transfers" data-bs-toggle="collapse">
+                                        <i data-feather="repeat"></i>
+                                        <span> Transfers Setup </span>
+                                        <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="Transfers">
                                     <ul class="nav-second-level">
@@ -241,18 +241,15 @@
                             </li>
                             @endif
 
-                            
-
-                            <li class="menu-title mt-2">General</li>
 
                             @if (Auth::guard('web')->user()->can('rolepermission.menu'))
                             <li>
-                                <a href="#sidebarBaseui" data-bs-toggle="collapse">
-                                    <i data-feather="package"></i>
-                                    <span> Role & Permissions </span>
-                                    <span class="menu-arrow"></span>
+                                    <a href="#RolePermission" data-bs-toggle="collapse">
+                                        <i data-feather="shield"></i>
+                                        <span> Role & Permissions </span>
+                                        <span class="menu-arrow"></span>
                                 </a>
-                                <div class="collapse" id="sidebarBaseui">
+                                <div class="collapse" id="RolePermission">
                                     <ul class="nav-second-level">
                                         @if (Auth::guard('web')->user()->can('all.permission'))
                                         <li>
@@ -279,10 +276,10 @@
 
                             @if (Auth::guard('web')->user()->can('admin.menu')) 
                             <li>
-                                <a href="#sidebarManageAdmin" data-bs-toggle="collapse">
-                                    <i data-feather="package"></i>
-                                    <span> Manage Admin </span>
-                                    <span class="menu-arrow"></span>
+                                    <a href="#sidebarManageAdmin" data-bs-toggle="collapse">
+                                        <i data-feather="user-check"></i>
+                                        <span> Manage Admin </span>
+                                        <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="sidebarManageAdmin">
                                     <ul class="nav-second-level">
