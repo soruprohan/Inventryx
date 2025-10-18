@@ -343,5 +343,27 @@
     
  </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var discountInput = document.getElementById("inputDiscount");
+        var shippingInput = document.getElementById("inputShipping");
+
+        if (discountInput) {
+            discountInput.addEventListener("focus", function () {
+                if (discountInput.value === "0.00") {
+                    discountInput.value = "";
+                }
+            });
+        }
+        if (shippingInput) {
+            shippingInput.addEventListener("focus", function () {
+                if (shippingInput.value === "0.00") {
+                    shippingInput.value = "";
+                }
+            });
+        }
+    });
+</script>
+
 
 @endsection

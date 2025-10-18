@@ -160,9 +160,12 @@
 
 
                                                                 <tr>
-                                                                    <td class="py-3">Paid Amount</td>
+                                                                    <td class="py-3">Paid Amount <span class="text-danger">*</span></td>
                                                                     <td class="py-3" id="paidAmount">
-                                                                        <input type="text" name="paid_amount" class="form-control" value="{{ $editData->paid_amount }}">
+                                                                        <input type="text" name="paid_amount" class="form-control" value="{{ $editData->paid_amount }}" required>
+                                                                        @error('paid_amount')
+                                                                        <span class="text-danger">{{ $message }}</span>
+                                                                        @enderror
                                                                     </td>
                                                                 </tr>
                                                                 <!-- new add full paid functionality  -->
@@ -382,6 +385,19 @@
         });
         document.getElementById("inputShipping").addEventListener("input", function () {
             document.getElementById("shippingDisplay").textContent = this.value || 0;
+        });
+
+        // Clear discount and shipping fields on focus
+        document.getElementById("inputDiscount").addEventListener("focus", function() {
+            if (this.value === "0.00" || this.value === "0") {
+                this.value = "";
+            }
+        });
+
+        document.getElementById("inputShipping").addEventListener("focus", function() {
+            if (this.value === "0.00" || this.value === "0") {
+                this.value = "";
+            }
         });
     
     
