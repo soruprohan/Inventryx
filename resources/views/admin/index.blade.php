@@ -50,7 +50,7 @@
                                 </div>
 
                                 <div class="d-flex align-items-baseline mb-2">
-                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">৳{{ number_format(\App\Models\Sale::sum('grand_total'), 2) }}</div>
+                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">${{ number_format(\App\Models\Sale::sum('grand_total'), 2) }}</div>
                                     <div class="me-auto">
                                         <span class="text-success d-inline-flex align-items-center">
                                             <i data-feather="trending-up" class="ms-1" style="height: 18px; width: 18px;"></i>
@@ -72,7 +72,7 @@
                                 </div>
 
                                 <div class="d-flex align-items-baseline mb-2">
-                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">৳{{ number_format(\App\Models\Purchase::sum('grand_total'), 2) }}</div>
+                                    <div class="fs-22 mb-0 me-2 fw-semibold text-black">${{ number_format(\App\Models\Purchase::sum('grand_total'), 2) }}</div>
                                     <div class="me-auto">
                                         <span class="badge bg-info-subtle text-info">
                                             <i data-feather="shopping-cart" class="me-1" style="height: 14px; width: 14px;"></i>
@@ -258,7 +258,7 @@
                                     <tr>
                                         <td><small class="text-muted">{{ \Carbon\Carbon::parse($sale->date)->format('M d, Y') }}</small></td>
                                         <td>{{ $sale->customer->name ?? 'N/A' }}</td>
-                                        <td class="fw-semibold">৳{{ number_format($sale->grand_total, 2) }}</td>
+                                        <td class="fw-semibold">${{ number_format($sale->grand_total, 2) }}</td>
                                         <td><span class="badge bg-success-subtle text-success">{{ $sale->status }}</span></td>
                                     </tr>
                                     @endforeach
