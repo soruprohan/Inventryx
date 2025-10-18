@@ -56,17 +56,17 @@
                             </div>
 
                             <hr>
+
                             @foreach ($permission_groups as $group)
                             <div class="row">
                                 <div class="col-3">
                                     <div class="form-check mb-2">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                        <label class="form-check-label" for="flexCheckDefault">
+                                        <input class="form-check-input group-checkbox" type="checkbox" value="" id="groupCheck_{{ Str::slug($group->group_name, '_') }}" data-group="{{ Str::slug($group->group_name, '_') }}">
+                                        <label class="form-check-label" for="groupCheck_{{ Str::slug($group->group_name, '_') }}">
                                             {{ $group->group_name }}
                                         </label>
                                     </div>
                                 </div>
-
 
                                 <div class="col-9">
                                     @php
@@ -75,7 +75,7 @@
 
                                     @foreach ($permissions as $permission)
                                     <div class="form-check mb-2">
-                                        <input class="form-check-input" name="permission[]" value="{{ $permission->id }}" type="checkbox" id="flexCheckDefault{{ $permission->id }}">
+                                        <input class="form-check-input permission-checkbox permission-{{ Str::slug($group->group_name, '_') }}" name="permission[]" value="{{ $permission->id }}" type="checkbox" id="flexCheckDefault{{ $permission->id }}">
                                         <label class="form-check-label" for="flexCheckDefault{{ $permission->id }}">
                                             {{ $permission->name }}
                                         </label>
@@ -86,7 +86,6 @@
                                 </div>
                             </div>
                             <!-- // End Row -->
-
                             @endforeach
 
 
@@ -109,13 +108,21 @@
 </div>
 
 <script>
+    // Permission All (global)
     $('#formCheck1').click(function() {
         if ($(this).is(':checked')) {
             $('input[type=checkbox]').prop('checked', true)
         } else {
             $('input[type=checkbox]').prop('checked', false)
         }
-    })
+    });
+
+    // Group-wise check/uncheck
+    $('.group-checkbox').on('change', function() {
+        var group = $(this).data('group');
+        var checked = $(this).is(':checked');
+        $('.permission-' + group).prop('checked', checked);
+    });
 </script>
 
 @endsection

@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('backend/assets/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('backend/assets/images/inventryx_favicon.png') }}">
 
     <!-- App css -->
     <link href="{{ asset('backend/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
@@ -34,7 +34,7 @@
                             <div class="mb-0 border-0 p-md-5 p-lg-0 p-4">
                                 <div class="mb-4 p-0">
                                     <a href="index.html" class="auth-logo">
-                                        <img src="{{ asset('backend/assets/images/logo-dark.png') }}" alt="logo-dark" class="mx-auto" height="28" />
+                                        <img src="{{ asset('backend/assets/images/inventryx_logo.png') }}" alt="logo-dark" class="mx-auto" height="48" />
                                     </a>
                                 </div>
 
@@ -80,8 +80,6 @@
                                         </div>
                                     </form>
 
-                                    <div class="saprator my-4"><span>or sign in with</span></div>
-
                                     <div class="text-center text-muted mb-4">
                                         <p class="mb-0">Don't have an account ?<a class='text-primary ms-2 fw-medium' href="{{ route('register') }}">Sign up</a></p>
                                     </div>
@@ -97,7 +95,7 @@
                 <div class="col-xl-7">
                     <div class="account-page-bg p-md-5 p-4">
                         <div class="text-center">
-                            <h3 class="text-dark mb-3 pera-title">Login Page for Inventory Management System</h3>
+                            <h3 class="text-dark mb-3 pera-title">Welcome! Login</h3>
                             <div class="auth-image">
                                 <img src="{{ asset('backend/assets/images/authentication.svg') }}" class="mx-auto img-fluid" alt="images">
                             </div>
