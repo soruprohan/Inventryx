@@ -1,5 +1,6 @@
 @extends('admin.admin_master')
 @section('admin')
+
 <div class="content">
 
     <!-- Start Content-->
@@ -94,7 +95,7 @@
                                 </div>
 
                                 <div class="d-flex align-items-baseline mb-2">
-                                    <div class="fs-22 mb-0 me-2 fw-semibold text-danger">{{ \App\Models\Product::where('product_qty', '<', 10)->count() }}</div>
+                                    <div class="fs-22 mb-0 me-2 fw-semibold text-danger">{{ \App\Models\Product::whereRaw('product_qty < stock_alert')->count() }}</div>
                                     <div class="me-auto">
                                         <span class="badge bg-danger-subtle text-danger">
                                             <i data-feather="alert-triangle" class="me-1" style="height: 14px; width: 14px;"></i>
@@ -290,7 +291,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach(\App\Models\Product::where('product_qty', '<', 10)->take(5)->get() as $product)
+                                    @foreach(\App\Models\Product::whereRaw('product_qty < stock_alert')->take(5)->get() as $product)
                                     <tr>
                                         <td>{{ $product->name }}</td>
                                         <td><span class="badge bg-danger">{{ $product->product_qty }}</span></td>
@@ -378,8 +379,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Stock Status Chart
     var stockStatusOptions = {
         series: [
-            {{ \App\Models\Product::where('product_qty', '>=', 10)->count() ?? 0 }}, 
-            {{ \App\Models\Product::where('product_qty', '<', 10)->count() ?? 0 }}
+            {{ \App\Models\Product::whereRaw('product_qty >= stock_alert')->count() ?? 0 }}, 
+            {{ \App\Models\Product::whereRaw('product_qty < stock_alert')->count() ?? 0 }}
         ],
         chart: {
             type: 'donut',

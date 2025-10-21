@@ -35,7 +35,8 @@
                     </div><!-- end card header -->
 
                     <div class="card-body">
-                        <form action="{{ route('admin.roles.update', $role->id) }}" method="post" class="row g-3" enctype="multipart/form-data">
+                        <form action="{{ route('admin.roles.update', $role->id) }}" method="post" class="row g-3"
+                            enctype="multipart/form-data">
                             @csrf
 
                             <div class="col-md-6">
@@ -60,8 +61,12 @@
                                     @endphp
 
                                     <div class="form-check mb-2">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" {{ App\Models\User::roleHasPermissions($role,$permissions) ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="flexCheckDefault">
+                                        <input class="form-check-input group-checkbox" type="checkbox" value=""
+                                            id="groupCheck_{{ Str::slug($group->group_name, '_') }}"
+                                            data-group="{{ Str::slug($group->group_name, '_') }}"
+                                            {{ App\Models\User::roleHasPermissions($role,$permissions) ? 'checked' : '' }}>
+                                        <label class="form-check-label"
+                                            for="groupCheck_{{ Str::slug($group->group_name, '_') }}">
                                             {{ $group->group_name }}
                                         </label>
                                     </div>
@@ -73,7 +78,10 @@
 
                                     @foreach ($permissions as $permission)
                                     <div class="form-check mb-2">
-                                        <input class="form-check-input" name="permission[]" value="{{ $permission->id }}" type="checkbox" id="flexCheckDefault{{ $permission->id }}" {{ $role->hasPermissionTo($permission->name) ? 'checked' : '' }}>
+                                        <input class="form-check-input permission-checkbox permission-{{ Str::slug($group->group_name, '_') }}"
+                                            name="permission[]" value="{{ $permission->id }}" type="checkbox"
+                                            id="flexCheckDefault{{ $permission->id }}"
+                                            {{ $role->hasPermissionTo($permission->name) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="flexCheckDefault{{ $permission->id }}">
                                             {{ $permission->name }}
                                         </label>
@@ -107,13 +115,21 @@
 </div>
 
 <script>
+    // Permission All (global)
     $('#formCheck1').click(function() {
         if ($(this).is(':checked')) {
             $('input[type=checkbox]').prop('checked', true)
         } else {
             $('input[type=checkbox]').prop('checked', false)
         }
-    })
+    });
+
+    // Group-wise check/uncheck
+    $('.group-checkbox').on('change', function() {
+        var group = $(this).data('group');
+        var checked = $(this).is(':checked');
+        $('.permission-' + group).prop('checked', checked);
+    });
 </script>
 
 @endsection

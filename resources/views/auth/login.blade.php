@@ -65,7 +65,12 @@
                                         </div>
 
                                         <div class="form-group d-flex mb-3">
-
+                                            <div class="col-sm-6">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                                                    <label class="form-check-label" for="remember">Remember Me</label>
+                                                </div>
+                                            </div>
                                             <div class="col-sm-6 text-end">
                                                 <a class='text-muted fs-14' href="{{ route('password.request') }}">Forgot password?</a>
                                             </div>

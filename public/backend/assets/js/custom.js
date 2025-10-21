@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function(){
           <td>
               <div class="input-group">
                   <button class="btn btn-outline-secondary decrement-qty" type="button">−</button>
-                  <input type="text" class="form-control text-center qty-input"
+                  <input type="text" class="form-control text-center qty-input" 
                       name="products[${productId}][quantity]" value="1" min="1" max="${stock}"
                       data-cost="${netUnitCost}" style="width: 30px;">
                   <button class="btn btn-outline-secondary increment-qty" type="button">+</button>
@@ -242,7 +242,7 @@ function updateDueAmount() {
     // let dueAmount = grandTotal - paidAmount;
 
     // new add full paid functionality 
-    let dueAmount = grandTotal - (paidAmount + fullPaidAmount);
+    let dueAmount = grandTotal - (paidAmount);
 
     if (dueAmount < 0) {
           dueAmount = 0;

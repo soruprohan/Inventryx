@@ -84,8 +84,11 @@
     <!-- Widgets Init Js -->
     <script src="{{ asset('backend/assets/js/pages/analytics-dashboard.init.js') }}"></script>
 
+    <!--This two files are used for delete pop up -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> 
-    <script src="{{ asset('backend/assets/js/code.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/code.js') }}"></script> 
+
+    <!--Product business logic here -->
     <script src="{{ asset('backend/assets/js/custom.js') }}"></script>
 
     <script src="{{ asset('backend/assets/js/validate.min.js') }}"></script>
@@ -103,6 +106,7 @@
     <!-- Datatable Demo App Js -->
     <script src="{{ asset('backend/assets/js/pages/datatable.init.js') }}"></script>
 
+    <!--toster related messages are shown from here -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     @if(Session::has('message'))

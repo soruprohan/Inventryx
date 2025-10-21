@@ -36,7 +36,6 @@
 
 
                             <li class="menu-title">Pages</li>
-                            @if (Auth::guard('web')->user()->can('brand.menu')) 
                             <li>
                                     <a href="#Brand" data-bs-toggle="collapse">
                                         <i data-feather="tag"></i>
@@ -45,16 +44,13 @@
                                 </a>
                                 <div class="collapse" id="Brand">
                                     <ul class="nav-second-level">
-                                        @if (Auth::guard('web')->user()->can('all.brand')) 
                                         <li>
                                             <a href="{{route('all.brand')}}" class="tp-link">All Brands</a>
                                         </li>
-                                        @endif
-                                        
+                                    
                                     </ul>
                                 </div>
                             </li>
-                            @endif
 
                             @if (Auth::guard('web')->user()->can('warehouse.menu')) 
                             <li>
@@ -118,31 +114,27 @@
                             </li>
                             @endif
 
-                            @if (Auth::guard('web')->user()->can('product.menu')) 
+                         
                             <li>
-                                    <a href="#Product" data-bs-toggle="collapse">
+                                <a href="#Product" data-bs-toggle="collapse">
                                         <i data-feather="box"></i>
                                         <span> Product Manage </span>
                                         <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="Product">
                                     <ul class="nav-second-level">
-                                        @if (Auth::guard('web')->user()->can('all.category')) 
+                                       
                                         <li>
                                             <a href="{{route('all.category')}}" class="tp-link">All Categories</a>
                                         </li>
-                                        @endif
-                                        @if (Auth::guard('web')->user()->can('all.product')) 
+                                         
                                         <li>
                                             <a href="{{route('all.product')}}" class="tp-link">All Products</a>
                                         </li>
-                                        @endif
-                                      
                                         
                                     </ul>
                                 </div>
                             </li>
-                            @endif
 
                             @if (Auth::guard('web')->user()->can('purchase.menu')) 
                             <li>
@@ -263,18 +255,18 @@
                                         </li>
                                         @endif
 
-                                        @if (Auth::guard('web')->user()->can('all.rolepermission')) 
+                                        @if (Auth::guard('web')->user()->can('all.rolepermission'))
                                         <li>
                                             <a href="{{route('all.roles.permission')}}" class="tp-link">All Role Permission</a>
                                         </li>
                                         @endif
-                                        
+
                                     </ul>
                                 </div>
                             </li>
                             @endif
 
-                            @if (Auth::guard('web')->user()->can('admin.menu')) 
+                            @if (Auth::guard('web')->user()->can('admin.menu'))
                             <li>
                                     <a href="#sidebarManageAdmin" data-bs-toggle="collapse">
                                         <i data-feather="user-check"></i>
@@ -283,18 +275,17 @@
                                 </a>
                                 <div class="collapse" id="sidebarManageAdmin">
                                     <ul class="nav-second-level">
-                                        @if (Auth::guard('web')->user()->can('all.admin')) 
+                                        @if (Auth::guard('web')->user()->can('all.admin'))
                                         <li>
                                             <a href="{{route('all.admin')}}" class="tp-link">All Admin</a>
                                         </li>
                                         @endif
-                                        
+
                                     </ul>
                                 </div>
                             </li>
                             @endif
 
-                          
                         </ul>
             
                     </div>

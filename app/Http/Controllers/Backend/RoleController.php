@@ -74,8 +74,7 @@ class RoleController extends Controller
     }
     //End method
     public function AddRole(){
-        $permissions = Permission::all();
-        return view('admin.backend.pages.role.add_role', compact('permissions'));
+        return view('admin.backend.pages.role.add_role');
 
     }
     //End method
@@ -124,7 +123,7 @@ class RoleController extends Controller
     public function AddRolesPermission(){
         $roles = Role::all();
         $permissions = Permission::all();
-        $permission_groups = User::getPermissionGroups();
+        $permission_groups = User::getPermissionGroups();  //user model e getPermissionByGroupName nije banano method
         return view('admin.backend.pages.rolesetup.add_roles_permission', compact('roles', 'permissions', 'permission_groups'));
     }
     //End method
@@ -171,8 +170,9 @@ class RoleController extends Controller
             $permissions = $request->permission;
 
             if (!empty($permissions)) {
-                $permissionNames = Permission::whereIn('id', $permissions)->pluck('name')->toArray();
-                $role->syncPermissions($permissionNames);
+                $permissionNames = Permission::whereIn('id', $permissions)->pluck('name')->toArray(); //permission theke selected id gular name tultese
+                $role->syncPermissions($permissionNames);                       //then role er sathe oi name er permission gular sync kortese
+                                                                                //permission names are needed because thats how spatie's syncPermission method works
             }else{
                 $role->syncPermissions([]); // Remove all permissions if none are selected
             }
@@ -213,78 +213,87 @@ class RoleController extends Controller
         }
         // End Method
 
-         public function StoreAdmin(Request $request){
+        public function StoreAdmin(Request $request){
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->role = 'admin';
-        $user->save();
-
-        if ($request->roles) {
-            $role = Role::where('id',$request->roles)->where('guard_name','web')->first();
-            if ($role) {
-                $user->assignRole($role->name);
+            // Check if user with this email already exists and delete if found
+            $existingUser = User::where('email', $request->email)->first();
+            if ($existingUser) {
+                // Detach all roles before deleting
+                $existingUser->roles()->detach();
+                // Delete the existing user
+                $existingUser->delete();
             }
-        }
 
-        $notification = array(
-            'message' => 'New Admin Inserted Successfully',
-            'alert-type' => 'success'
-         ); 
-         return redirect()->route('all.admin')->with($notification); 
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->role = 'admin';
+            $user->save();
 
-    }
-     // End Method
-
-    public function EditAdmin($id){
-        $admin = User::find($id);
-        $roles = Role::all();
-        return view('admin.backend.pages.admin.edit_admin',compact('admin','roles')); 
-    }
-    // End Method
-
-    public function UpdateAdmin(Request $request,$id){
-
-        $user = User::find($id);
-        $user->name = $request->name;
-        $user->email = $request->email; 
-        $user->role = 'admin';
-        $user->save();
-        
-        $user->roles()->detach();
-
-        if ($request->roles) {
-            $role = Role::where('id',$request->roles)->where('guard_name','web')->first();
-            if ($role) {
-                $user->assignRole($role->name);
+            if ($request->roles) {
+                $role = Role::where('id',$request->roles)->where('guard_name','web')->first();
+                if ($role) {
+                    $user->assignRole($role->name);
+                }
             }
+
+            $notification = array(
+                'message' => 'New Admin Inserted Successfully',
+                'alert-type' => 'success'
+             ); 
+             return redirect()->route('all.admin')->with($notification); 
+
         }
+         // End Method
 
-        $notification = array(
-            'message' => 'New Admin Updated Successfully',
-            'alert-type' => 'success'
-         ); 
-         return redirect()->route('all.admin')->with($notification); 
-
-    }
-     // End Method
-
-    public function DeleteAdmin($id){
-
-        $admin = User::find($id);
-        if (!is_null($admin)) {
-            $admin->delete();
+        public function EditAdmin($id){
+            $admin = User::find($id);
+            $roles = Role::all();
+            return view('admin.backend.pages.admin.edit_admin',compact('admin','roles')); 
         }
+        // End Method
 
-        $notification = array(
-            'message' => ' Admin Deleted Successfully',
-            'alert-type' => 'success'
-         ); 
-         return redirect()->back()->with($notification); 
+        public function UpdateAdmin(Request $request,$id){
 
-    }
-     // End Method
+            $user = User::find($id);
+            $user->name = $request->name;
+            $user->email = $request->email; 
+            $user->role = 'admin';
+            $user->save();
+            
+            $user->roles()->detach();
+
+            if ($request->roles) {
+                $role = Role::where('id',$request->roles)->where('guard_name','web')->first();
+                if ($role) {
+                    $user->assignRole($role->name);
+                }
+            }
+
+            $notification = array(
+                'message' => 'New Admin Updated Successfully',
+                'alert-type' => 'success'
+             ); 
+             return redirect()->route('all.admin')->with($notification); 
+
+        }
+         // End Method
+
+        public function DeleteAdmin($id){
+
+            $admin = User::find($id);
+            if (!is_null($admin)) {
+                $admin->delete();
+            }
+
+            $notification = array(
+                'message' => ' Admin Deleted Successfully',
+                'alert-type' => 'success'
+             ); 
+             return redirect()->back()->with($notification); 
+
+        }
+         // End Method
 
 }

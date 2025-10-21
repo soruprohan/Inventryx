@@ -63,7 +63,7 @@
                         <div class="col-md-4 mb-4">
                             <div class="card shadow-sm border-0 h-100" style="border-radius: 10px; transition: 0.2s">
                                 <div class="card-header text-white text-center" style="background: linear-gradient(135deg, #17a2b8, #0d6efd); border-radius:10px 10px 0 0;">
-                                    <h5 class="mb-0 fw-bold">Purchase Information</h5>
+                                    <h5 class="mb-0 fw-bold">Purchase Return Information</h5>
                                 </div>
                                 <div class="card-body p-4">
                                     <div class="d-flex align-items-center mb-3">

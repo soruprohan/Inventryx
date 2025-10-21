@@ -79,7 +79,7 @@ class PurchaseController extends Controller
 
             foreach ($request->products as $productData) {
                 $product = Product::find($productData['id']);
-                $netUnitCost = $productData['net_unit_cost'] ?? $product->price;
+                $netUnitCost = $productData['cost'] ?? $product->price;
 
                 if (($netUnitCost == null)) {
                     throw new \Exception("Net unit cost is missing for product ID: " . $productData['id']);
@@ -173,7 +173,7 @@ class PurchaseController extends Controller
                 PurchaseItem::create([
                     'purchase_id' => $purchase->id,
                     'product_id' => $product_id,
-                    'net_unit_cost' => $productData['net_unit_cost'],
+                    'net_unit_cost' => $productData['cost'] ?? $productData['net_unit_cost'],
                     'stock' => $productData['stock'],
                     'quantity' => $productData['quantity'],
                     'discount' => $productData['discount'] ?? 0,

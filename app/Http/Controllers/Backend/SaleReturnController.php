@@ -137,7 +137,6 @@ class SaleReturnController extends Controller
                 'grand_total' => $request->grand_total,
                 'paid_amount' => $request->paid_amount,
                 'due_amount' => $request->due_amount,
-                'full_paid' => $request->full_paid,
             ]);
 
             /// Get Old Sale Return Items 

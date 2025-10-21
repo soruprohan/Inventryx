@@ -43,6 +43,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    //user model e getPermissionGroups nije banano method
     //start method
     public static function getPermissionGroups()
     {
@@ -53,6 +55,8 @@ class User extends Authenticatable
         return $permission_groups;
     }
     //End method
+
+    //user model e getPermissionByGroupName nije banano method
 
     public static function getPermissionByGroupName($group_name)
     {

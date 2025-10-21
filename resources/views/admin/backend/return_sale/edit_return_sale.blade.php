@@ -159,29 +159,20 @@
                                                                 </tr>
 
 
-                                                                <tr>
-                                                                    <td class="py-3">Paid Amount <span class="text-danger">*</span></td>
-                                                                    <td class="py-3" id="paidAmount">
-                                                                        <input type="text" name="paid_amount" value="{{ $editData->paid_amount }}" class="form-control" required>
-                                                                        @error('paid_amount')
-                                                                        <span class="text-danger">{{ $message }}</span>
-                                                                        @enderror
-                                                                    </td>
-                                                                </tr>
-                                                                <!-- new add full paid functionality  -->
-                                                                <tr>
-                                                                    <td class="py-3">Full Paid</td>
-                                                                    <td class="py-3" id="fullPaid">
-                                                                        <input type="text" class="form-control" name="full_paid" value="{{ $editData->full_paid }}" id="fullPaidInput">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="py-3">Due Amount</td>
-                                                                    <td class="py-3" id="dueAmount">$ {{ $editData->due_amount }}</td>
-                                                                    <input type="hidden" name="due_amount" value="{{ $editData->due_amount }}">
-                                                                </tr>
-
-
+                                                <tr>
+                                                    <td class="py-3">Paid Amount <span class="text-danger">*</span></td>
+                                                    <td class="py-3" id="paidAmount">
+                                                        <input type="text" name="paid_amount" value="{{ $editData->paid_amount }}" class="form-control" required>
+                                                        @error('paid_amount')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="py-3">Due Amount</td>
+                                                    <td class="py-3" id="dueAmount">$ {{ $editData->due_amount }}</td>
+                                                    <input type="hidden" name="due_amount" value="{{ $editData->due_amount }}">
+                                                </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -339,20 +330,14 @@
        function updateDueAmount() {
           let grandTotal = parseFloat(document.getElementById("grandTotalInput").value) || 0;
           let paidAmount = parseFloat(document.querySelector("input[name='paid_amount']").value) || 0;
-          let fullPaidAmount = parseFloat(document.querySelector("input[name='full_paid']").value) || 0;
 
           if (paidAmount < 0) {
              paidAmount = 0;
              document.querySelector("input[name='paid_amount']").value = 0;
           }
-          
-          if (fullPaidAmount < 0) {
-             fullPaidAmount = 0;
-             document.querySelector("input[name='full_paid']").value = 0;
-          }
 
           // Calculate due amount 
-          let dueAmount = grandTotal - (paidAmount + fullPaidAmount);
+          let dueAmount = grandTotal - paidAmount;
 
           if (dueAmount < 0) {
              dueAmount = 0;
@@ -377,7 +362,6 @@
         
         // Event listener for paid amount change
         document.querySelector("input[name='paid_amount']").addEventListener("input", updateDueAmount);
-        document.querySelector("input[name='full_paid']").addEventListener("input", updateDueAmount);
         
         // Event listeners for discount and shipping display update
         document.getElementById("inputDiscount").addEventListener("input", function () {
