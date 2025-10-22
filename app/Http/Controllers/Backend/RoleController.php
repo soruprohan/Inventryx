@@ -66,7 +66,9 @@ class RoleController extends Controller
     }
     //End method
 
-    //Roles
+   ///////////////////////Roles///////////////////////////
+
+   
     public function AllRole(){
         $roles = Role::all();
         return view('admin.backend.pages.role.all_role', compact('roles'));
