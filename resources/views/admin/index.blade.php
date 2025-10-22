@@ -306,6 +306,35 @@
             </div>
         </div>
 
+        <!-- External API Integration Section -->
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <div class="border border-dark rounded-2 me-2 widget-icons-sections">
+                                    <i data-feather="dollar-sign" class="widgets-icons"></i>
+                                </div>
+                                <h5 class="card-title mb-0">Currency Exchange Rates</h5>
+                            </div>
+                            <button id="fetchRates" class="btn btn-sm btn-primary">
+                                <i data-feather="refresh-cw" style="height: 14px; width: 14px;"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="ratesResult">
+                            <div class="text-center text-muted py-3">
+                                <i data-feather="info" class="mb-2"></i>
+                                <p>Click the refresh button to fetch live exchange rates</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -395,6 +424,74 @@ document.addEventListener('DOMContentLoaded', function() {
     
     var stockStatusChart = new ApexCharts(document.querySelector("#stock-status-chart"), stockStatusOptions);
     stockStatusChart.render();
+
+    // API Integration - Exchange Rates
+    const fetchRatesBtn = document.getElementById('fetchRates');
+    const ratesResult = document.getElementById('ratesResult');
+    
+    if (fetchRatesBtn) {
+        fetchRatesBtn.addEventListener('click', function() {
+            const btn = this;
+            const originalHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Loading...';
+            
+            fetch('/api/exchange-rates')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const rates = data.rates;
+                        let html = `
+                            <div class="p-2">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-muted small">Base: ${data.base_currency}</span>
+                                    <span class="text-muted small">${data.date}</span>
+                                </div>
+                                <div class="row g-2">
+                        `;
+                        
+                        Object.entries(rates).forEach(([currency, rate]) => {
+                            if (rate) {
+                                html += `
+                                    <div class="col-6">
+                                        <div class="border rounded p-2 text-center">
+                                            <div class="fw-bold text-primary">${currency}</div>
+                                            <div class="small">${rate.toFixed(4)}</div>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                        });
+                        
+                        html += `
+                                </div>
+                            </div>
+                        `;
+                        ratesResult.innerHTML = html;
+                    } else {
+                        ratesResult.innerHTML = `
+                            <div class="alert alert-danger mb-0">
+                                <i data-feather="alert-circle"></i> ${data.message}
+                            </div>
+                        `;
+                    }
+                    feather.replace();
+                })
+                .catch(error => {
+                    ratesResult.innerHTML = `
+                        <div class="alert alert-danger mb-0">
+                            <i data-feather="alert-circle"></i> Error fetching exchange rates
+                        </div>
+                    `;
+                    feather.replace();
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalHtml;
+                    feather.replace();
+                });
+        });
+    }
 });
 </script>
 
