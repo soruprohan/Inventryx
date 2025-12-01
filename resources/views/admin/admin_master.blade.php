@@ -26,6 +26,9 @@
     <!-- Icons -->
     <link href="{{ asset('backend/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
 
+    <!-- Custom Color Palette -->
+    <link href="{{ asset('backend/assets/css/custom-colors.css') }}" rel="stylesheet" type="text/css" />
+
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 
 </head>
